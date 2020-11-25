@@ -5,21 +5,22 @@ import Login from './Login';
 import Registration from './Registration'
 import './App.css';
 
+const PAGES = {
+    map: Map,
+    profile: Profile,
+    login: Login,
+    registration: Registration
+}
+
 export default class App extends React.Component {
-    state = {currentPage: "map"}
+    state = {currentPage: "map"};
 
     navigateTo = (page) => {
         this.setState({currentPage: page});
     };
 
-    PAGES = {
-        map: <Map/>,
-        profile: <Profile/>,
-        login: <Login navigate={this.navigateTo}/>,
-        registration: <Registration navigate={this.navigateTo}/>
-    }
-
     render() {
+        const Page = PAGES[this.state.currentPage];
         return (
             <>
                 <header>
@@ -51,7 +52,9 @@ export default class App extends React.Component {
                 </header>
                 <main>
                     <section>
-                        {this.PAGES[this.state.currentPage]}
+                        {
+                            <Page navigate={this.navigateTo}/>
+                        }
                     </section>
                 </main>
             </>
