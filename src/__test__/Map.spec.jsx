@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from "@testing-library/react";
-import {Map} from "./Map";
+import {Map} from "../pages/Map";
 
 describe("Map", () => {
     it("renders correctly", () => {

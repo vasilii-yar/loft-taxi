@@ -1,9 +1,9 @@
 import React from 'react';
-import {Map} from './Map';
-import {Profile} from './Profile';
-import Login from './Login';
-import Registration from './Registration'
-import './App.css';
+import {Map} from './pages/Map';
+import {Profile} from './pages/Profile';
+import Login from './pages/Login';
+import Registration from './pages/Registration'
+import './css/App.css';
 
 const PAGES = {
     map: Map,
@@ -13,7 +13,7 @@ const PAGES = {
 }
 
 export default class App extends React.Component {
-    state = {currentPage: "map"};
+    state = {currentPage: "login"};
 
     navigateTo = (page) => {
         this.setState({currentPage: page});
@@ -22,7 +22,15 @@ export default class App extends React.Component {
     render() {
         const Page = PAGES[this.state.currentPage];
         return (
-            <>
+            <div className={"container"}>
+                <Page navigate={this.navigateTo}/>
+            </div>
+        );
+    }
+}
+
+/*
+* <Logo white={true}/>
                 <header>
                     <nav>
                         <ul>
@@ -57,7 +65,5 @@ export default class App extends React.Component {
                         }
                     </section>
                 </main>
-            </>
-        );
-    }
-}
+*
+* */
