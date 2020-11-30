@@ -1,22 +1,23 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {Logo} from 'loft-taxi-mui-theme';
-import LoginForm from "../components/LoginForm";
-import "../css/Login.css"
+import LoginForm from "../../components/loginform/LoginForm";
+import AppContext from "../../util/AppContext";
+import "./Login.css"
 
 export default class Login extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
             <Grid container direction="row" justify="center" alignItems="center" className={"login-bundle"}>
                 <Grid item xs={2}>
-                    <Logo white={true}/>
+                    <Logo animated={true} white={true}/>
                 </Grid>
                 <Grid item xs={4}>
-                    <LoginForm/>
+                    <AppContext.Consumer>
+                        {({navigateTo, logIn}) =>
+                            <LoginForm navigateTo={navigateTo} logIn={logIn} />}
+                    </AppContext.Consumer>
                 </Grid>
             </Grid>
         );

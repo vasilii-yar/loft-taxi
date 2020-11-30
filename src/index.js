@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './css/index.css';
+import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {theme} from "loft-taxi-mui-theme";
 import {MuiThemeProvider} from "@material-ui/core";
+import 'fontsource-roboto';
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>

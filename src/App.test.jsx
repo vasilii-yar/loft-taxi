@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from "@testing-library/react";
-import App from "../App";
+import App from "./App";
 import {fireEvent} from "@testing-library/react";
 
 jest.mock("./Map", () => ({Map: () => <div>Map component</div>}));
@@ -9,12 +9,8 @@ jest.mock("./Profile", () => ({Profile: () => <div>Profile component</div>}));
 
 describe("App", () => {
    it("renders correctly", () => {
-      const {getAllByRole} = render(<App/>);
-      const [button1, button2, button3] = getAllByRole("button");
-
-      expect(button1.innerHTML).toMatch("Карта");
-      expect(button2.innerHTML).toMatch("Профиль");
-      expect(button3.innerHTML).toMatch("Логин");
+      const {container} = render(<App/>);
+      expect(container.innerHTML).toMatch("Войти");
    });
 
    describe("when click on nav buttons", () => {

@@ -1,9 +1,10 @@
 import React from 'react';
-import {Map} from './pages/Map';
-import {Profile} from './pages/Profile';
-import Login from './pages/Login';
-import Registration from './pages/Registration'
-import './css/App.css';
+import Map from './pages/map/Map';
+import Profile from './pages/profile/Profile';
+import Login from './pages/login/Login';
+import Registration from './pages/registration/Registration';
+import AppContext from "./util/AppContext";
+import './App.css';
 
 const PAGES = {
     map: Map,
@@ -12,58 +13,44 @@ const PAGES = {
     registration: Registration
 }
 
+const userStatus = {isLoggedIn: false}
+
 export default class App extends React.Component {
-    state = {currentPage: "login"};
+    state = {
+        currentPage: "login"
+    };
 
     navigateTo = (page) => {
-        this.setState({currentPage: page});
+        if (userStatus.isLoggedIn || page === "registration") {
+            this.setState({currentPage: page});
+        } else {
+          this.setState({currentPage: "login"})
+        }
     };
+
+    logIn = (email, password) => {
+        userStatus.isLoggedIn = true;
+        this.navigateTo("map");
+    }
+
+    logOut = () => {
+        userStatus.isLoggedIn = false;
+        this.navigateTo("login");
+    }
 
     render() {
         const Page = PAGES[this.state.currentPage];
         return (
             <div className={"container"}>
-                <Page navigate={this.navigateTo}/>
+                <AppContext.Provider value={{
+                    navigateTo: this.navigateTo,
+                    logIn: this.logIn,
+                    logOut: this.logOut
+                }
+                }>
+                    <Page navigate={this.navigateTo}/>
+                </AppContext.Provider>
             </div>
         );
     }
 }
-
-/*
-* <Logo white={true}/>
-                <header>
-                    <nav>
-                        <ul>
-                            <li>
-                                <button onClick={() => {
-                                    this.navigateTo("map")
-                                }}>
-                                    Карта
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => {
-                                    this.navigateTo("profile")
-                                }}>
-                                    Профиль
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => {
-                                    this.navigateTo("login")
-                                }}>
-                                    Логин
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </header>
-                <main>
-                    <section>
-                        {
-                            <Page navigate={this.navigateTo}/>
-                        }
-                    </section>
-                </main>
-*
-* */
