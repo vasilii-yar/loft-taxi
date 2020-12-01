@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {Logo} from 'loft-taxi-mui-theme';
 import LoginForm from "../../components/loginform/LoginForm";
-import AppContext from "../../util/AppContext";
 import "./Login.css"
 
 export default class Login extends React.Component {
@@ -14,10 +13,7 @@ export default class Login extends React.Component {
                     <Logo animated={true} white={true}/>
                 </Grid>
                 <Grid item xs={4}>
-                    <AppContext.Consumer>
-                        {({navigateTo, logIn}) =>
-                            <LoginForm navigateTo={navigateTo} logIn={logIn} />}
-                    </AppContext.Consumer>
+                    <LoginForm navigateTo={this.props.navigateTo}/>
                 </Grid>
             </Grid>
         );

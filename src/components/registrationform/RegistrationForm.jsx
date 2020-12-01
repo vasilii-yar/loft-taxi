@@ -10,8 +10,9 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import "./RegistrationForm.css";
 import PropTypes from "prop-types";
+import {withAuth} from "../../util/AuthContext";
 
-export default class RegistrationForm extends React.Component {
+class RegistrationForm extends React.Component {
     static propTypes = {
         logIn: PropTypes.func.isRequired,
         navigateTo: PropTypes.func.isRequired
@@ -29,6 +30,7 @@ export default class RegistrationForm extends React.Component {
 
     handleSubmit = () => {
         this.props.logIn(this.state.email, this.state.password);
+        this.props.navigateTo("map");
     }
 
     goToLogin = () => {
@@ -46,7 +48,7 @@ export default class RegistrationForm extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <Paper>
                 <Container>
                     <Typography variant="h4" gutterBottom className="login-header">
@@ -57,7 +59,7 @@ export default class RegistrationForm extends React.Component {
                             <Grid item xs={12}>
                                 <Typography>
                                     Уже зарегистрированы? <Link href="#"
-                                                              onClick={this.goToLogin}>Войти</Link>
+                                                                onClick={this.goToLogin}>Войти</Link>
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
@@ -124,3 +126,5 @@ export default class RegistrationForm extends React.Component {
         );
     }
 }
+
+export default withAuth(RegistrationForm);

@@ -5,9 +5,10 @@ import Button from "@material-ui/core/Button";
 import {Logo} from 'loft-taxi-mui-theme';
 import './NavBar.css';
 import PropTypes from "prop-types";
+import {withAuth} from "../../util/AuthContext";
 
 
-export default class NavBar extends React.Component {
+class NavBar extends React.Component {
     static propTypes = {
         logOut: PropTypes.func.isRequired,
         navigateTo: PropTypes.func.isRequired
@@ -15,6 +16,7 @@ export default class NavBar extends React.Component {
 
     logOut = () => {
        this.props.logOut();
+       this.props.navigateTo("login")
     }
 
     goToMap = () => {
@@ -27,7 +29,7 @@ export default class NavBar extends React.Component {
 
     render() {
         return (
-            <AppBar color="white" position={"static"}>
+            <AppBar color="inherit" position={"static"}>
                 <Toolbar>
                     <Logo/>
                     <div className="nav-buttons">
@@ -40,3 +42,5 @@ export default class NavBar extends React.Component {
         );
     }
 }
+
+export default withAuth(NavBar);

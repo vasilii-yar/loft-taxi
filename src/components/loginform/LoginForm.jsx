@@ -10,8 +10,9 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import PropTypes from "prop-types";
+import {withAuth} from "../../util/AuthContext";
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
     static propTypes = {
         logIn: PropTypes.func.isRequired,
         navigateTo: PropTypes.func.isRequired
@@ -27,6 +28,7 @@ export default class LoginForm extends React.Component {
 
     handleSubmit = () => {
         this.props.logIn(this.state.login, this.state.password);
+        this.props.navigateTo("map");
     }
 
     goToRegistration = () => {
@@ -88,3 +90,5 @@ export default class LoginForm extends React.Component {
         );
     }
 }
+
+export default withAuth(LoginForm);

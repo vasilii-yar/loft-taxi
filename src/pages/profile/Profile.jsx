@@ -1,5 +1,4 @@
 import React from 'react';
-import AppContext from "../../util/AppContext";
 import NavBar from "../../components/navbar/NavBar";
 
 export default class Profile extends React.Component {
@@ -7,10 +6,7 @@ export default class Profile extends React.Component {
         return (
             <>
                 <header>
-                    <AppContext.Consumer>
-                        {({navigateTo, logOut}) =>
-                            <NavBar navigateTo={navigateTo} logOut={logOut}/>}
-                    </AppContext.Consumer>
+                    <NavBar navigateTo={this.props.navigateTo}/>
                 </header>
                 <main>
                     <section>

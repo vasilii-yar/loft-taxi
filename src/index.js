@@ -6,11 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import {theme} from "loft-taxi-mui-theme";
 import {MuiThemeProvider} from "@material-ui/core";
 import 'fontsource-roboto';
+import {AuthProvider} from "./util/AuthContext";
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
         <React.StrictMode>
-            <App/>
+            <AuthProvider>
+                <App/>
+            </AuthProvider>
         </React.StrictMode>
     </MuiThemeProvider>
     ,
