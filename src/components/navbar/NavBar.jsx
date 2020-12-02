@@ -16,7 +16,7 @@ class NavBar extends React.Component {
 
     logOut = () => {
        this.props.logOut();
-       this.props.navigateTo("login")
+       this.props.navigateTo("login");
     }
 
     goToMap = () => {

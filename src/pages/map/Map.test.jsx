@@ -1,15 +1,19 @@
 import React from 'react';
 import {render} from "@testing-library/react";
 import Map from "./Map";
-import MapBox from "../../components/mapbox/MapBox";
-import NavBar from "../../components/navbar/NavBar";
+import {AuthProvider} from "../../util/AuthContext";
 
-jest.mock("../../components/mapbox/MapBox", () => ({MapBox: () => <div>Map component</div>}));
+const mockNavigateTo = jest.fn();
+jest.mock("../../components/mapbox/MapBox", () => ({MapBox: () => <div>Карта</div>}));
 jest.mock("../../components/navbar/NavBar", () => ({NavBar: () => <div>NavBar component</div>}));
 
 describe("Map", () => {
     it("renders correctly", () => {
-        const {container} = render(<Map/>);
+        const {container} = render(
+            <AuthProvider>
+                <Map navigateTo={mockNavigateTo}/>
+            </AuthProvider>
+            );
         expect(container.innerHTML).toMatch("Карта");
     })
 });

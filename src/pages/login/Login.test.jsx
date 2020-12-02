@@ -1,14 +1,19 @@
 import React from 'react';
 import {render} from "@testing-library/react";
 import Login from "./Login";
+import {AuthProvider} from "../../util/AuthContext";
+
+const mockNavigateTo = jest.fn();
+jest.mock("../../components/loginform/LoginForm", () => ({LoginForm: () => <div>Форма входа</div>}));
 
 describe("Login", () => {
     it("renders correctly", () => {
-        const {getByLabelText, getByText, getAllByText} = render(<Login/>);
+        const {container} = render(
+            <AuthProvider>
+                <Login navigateTo={mockNavigateTo}/>
+            </AuthProvider>
+        );
 
-        expect(getByLabelText("Имя пользователя:")).toHaveAttribute("name", "login");
-        expect(getByLabelText("Пароль:")).toHaveAttribute("name", "password");
-        expect(getByText("Зарегистрируйтесь")).toBeInTheDocument();
-        expect(getAllByText("Войти").length.toString()).toMatch("2");
+        expect(container.innerHTML).toMatch("Форма входа");
     })
 });

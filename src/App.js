@@ -27,7 +27,7 @@ class App extends React.Component {
             this.setState({currentPage: "login"})
         }
     };
-
+    
     render() {
         const Page = PAGES[this.state.currentPage];
         return (

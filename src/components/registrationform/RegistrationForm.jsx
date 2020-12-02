@@ -30,11 +30,14 @@ class RegistrationForm extends React.Component {
 
     handleSubmit = () => {
         this.props.logIn(this.state.email, this.state.password);
-        this.props.navigateTo("map");
     }
 
     goToLogin = () => {
         this.props.navigateTo("login");
+    }
+
+    goToMap = () => {
+        this.props.navigateTo("map")
     }
 
     handleChange = (event) => {
@@ -49,80 +52,89 @@ class RegistrationForm extends React.Component {
 
     render() {
         return (
-            <Paper>
-                <Container>
-                    <Typography variant="h4" gutterBottom className="login-header">
-                        Регистрация
-                    </Typography>
-                    <form onSubmit={this.handleSubmit}>
-                        <Grid container direction={"column"} spacing={2}>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    Уже зарегистрированы? <Link href="#"
-                                                                onClick={this.goToLogin}>Войти</Link>
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel htmlFor="login">Адрес электронной почты</InputLabel>
-                                    <Input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        onChange={this.handleChange}
-                                        fullWidth
-                                    />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Grid container direction="row">
-                                    <Grid item xs={5}>
+            this.props.isLoggedIn ?
+                (
+                    <>
+                        {this.goToMap()}
+                    </>
+                )
+                :
+                (
+                    <Paper>
+                        <Container>
+                            <Typography variant="h4" gutterBottom className="login-header">
+                                Регистрация
+                            </Typography>
+                            <form onSubmit={this.handleSubmit}>
+                                <Grid container direction={"column"} spacing={2}>
+                                    <Grid item xs={12}>
+                                        <Typography>
+                                            Уже зарегистрированы? <Link href="#"
+                                                                        onClick={this.goToLogin}>Войти</Link>
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12}>
                                         <FormControl fullWidth>
-                                            <InputLabel htmlFor="login">Имя</InputLabel>
+                                            <InputLabel htmlFor="login">Адрес электронной почты</InputLabel>
                                             <Input
-                                                id="name"
-                                                name="name"
-                                                type="text"
+                                                id="email"
+                                                name="email"
+                                                type="email"
                                                 onChange={this.handleChange}
+                                                fullWidth
                                             />
                                         </FormControl>
                                     </Grid>
-                                    <Grid item xs={2}></Grid>
-                                    <Grid item xs={5}>
+                                    <Grid item xs={12}>
+                                        <Grid container direction="row">
+                                            <Grid item xs={5}>
+                                                <FormControl fullWidth>
+                                                    <InputLabel htmlFor="login">Имя</InputLabel>
+                                                    <Input
+                                                        id="name"
+                                                        name="name"
+                                                        type="text"
+                                                        onChange={this.handleChange}
+                                                    />
+                                                </FormControl>
+                                            </Grid>
+                                            <Grid item xs={2}></Grid>
+                                            <Grid item xs={5}>
+                                                <FormControl fullWidth>
+                                                    <InputLabel htmlFor="login">Фамилия</InputLabel>
+                                                    <Input
+                                                        id="surname"
+                                                        name="surname"
+                                                        type="text"
+                                                        onChange={this.handleChange}
+                                                    />
+                                                </FormControl>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={12}>
                                         <FormControl fullWidth>
-                                            <InputLabel htmlFor="login">Фамилия</InputLabel>
+                                            <InputLabel htmlFor="password">Пароль</InputLabel>
                                             <Input
-                                                id="surname"
-                                                name="surname"
-                                                type="text"
+                                                id="password"
+                                                type="password"
                                                 onChange={this.handleChange}
+                                                fullWidth
                                             />
                                         </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <div className="login-button">
+                                            <Button variant="contained" color="primary" type="submit">
+                                                Войти
+                                            </Button>
+                                        </div>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel htmlFor="password">Пароль</InputLabel>
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        onChange={this.handleChange}
-                                        fullWidth
-                                    />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <div className="login-button">
-                                    <Button variant="contained" color="primary" type="submit">
-                                        Войти
-                                    </Button>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </Container>
-            </Paper>
+                            </form>
+                        </Container>
+                    </Paper>
+                )
         );
     }
 }

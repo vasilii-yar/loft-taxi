@@ -28,65 +28,76 @@ class LoginForm extends React.Component {
 
     handleSubmit = () => {
         this.props.logIn(this.state.login, this.state.password);
+    }
+
+    goToMap = () => {
         this.props.navigateTo("map");
     }
 
     goToRegistration = () => {
-        this.props.navigateTo("registration")
+        this.props.navigateTo("registration");
     }
-
 
 
     render() {
         return (
-            <Paper>
-                <Container>
-                    <Typography variant="h4" gutterBottom className="login-header">
-                        Войти
-                    </Typography>
-                    <form onSubmit={this.handleSubmit}>
-                        <Grid container direction="column" spacing={2}>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    Новый пользователь? <Link href="#"
-                                                              onClick={this.goToRegistration}>Зарегистрируйтесь</Link>
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel htmlFor="login">Пользователь</InputLabel>
-                                    <Input
-                                        id="login"
-                                        name="login"
-                                        type="email"
-                                        onChange={this.handleChange}
-                                        fullWidth
-                                    />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel htmlFor="password">Пароль</InputLabel>
-                                    <Input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        onChange={this.handleChange}
-                                        fullWidth
-                                    />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <div className="login-button">
-                                    <Button variant="contained" color="primary" type="submit">
-                                        Войти
-                                    </Button>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </Container>
-            </Paper>
+            this.props.isLoggedIn ?
+                (
+                    <>
+                        {this.goToMap()}
+                    </>
+                )
+                :
+                (
+                    <Paper>
+                        <Container>
+                            <Typography variant="h4" gutterBottom className="login-header">
+                                Войти
+                            </Typography>
+                            <form onSubmit={this.handleSubmit}>
+                                <Grid container direction="column" spacing={2}>
+                                    <Grid item xs={12}>
+                                        <Typography>
+                                            Новый пользователь? <Link href="#"
+                                                                      onClick={this.goToRegistration}>Зарегистрируйтесь</Link>
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormControl fullWidth>
+                                            <InputLabel htmlFor="login">Пользователь</InputLabel>
+                                            <Input
+                                                id="login"
+                                                name="login"
+                                                type="email"
+                                                onChange={this.handleChange}
+                                                fullWidth
+                                            />
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FormControl fullWidth>
+                                            <InputLabel htmlFor="password">Пароль</InputLabel>
+                                            <Input
+                                                id="password"
+                                                name="password"
+                                                type="password"
+                                                onChange={this.handleChange}
+                                                fullWidth
+                                            />
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <div className="login-button">
+                                            <Button variant="contained" color="primary" type="submit">
+                                                Войти
+                                            </Button>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                        </Container>
+                    </Paper>
+                )
         );
     }
 }
