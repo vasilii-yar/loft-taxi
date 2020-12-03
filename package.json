@@ -3,12 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.1",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.1",
     "@testing-library/user-event": "^12.2.2",
+    "enzyme": "^3.11.0",
+    "fontsource-roboto": "^3.0.3",
+    "jest-dom": "^4.0.0",
+    "loft-taxi-mui-theme": "^1.2.0",
+    "mapbox-gl": "^1.13.0",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
+    "react-test-renderer": "^17.0.1",
+    "typescript": "^4.1.2",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -34,5 +43,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.3.2"
   }
 }
