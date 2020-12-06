@@ -2,7 +2,6 @@ import React from 'react';
 import {render} from "@testing-library/react";
 import Registration from "./Registration";
 import {Profile} from "../profile/Profile";
-import {AuthProvider} from "../../util/AuthContext";
 import renderer from "react-test-renderer";
 
 const mockNavigateTo = jest.fn();
@@ -19,18 +18,14 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 describe("Registration", () => {
     it("renders correctly", () => {
         const {container} = render(
-            <AuthProvider>
-                <Registration navigateTo={mockNavigateTo}/>
-            </AuthProvider>
-            );
+            <Registration navigateTo={mockNavigateTo}/>
+        );
         expect(container.innerHTML).toMatch("Регистрация");
     })
 
     it("renders correctly check by snapshot", () => {
         const tree = renderer.create(
-            <AuthProvider>
-                <Registration navigateTo={mockNavigateTo}/>
-            </AuthProvider>
+            <Registration navigateTo={mockNavigateTo}/>
         ).toJSON();
         expect(tree).toMatchSnapshot();
     })

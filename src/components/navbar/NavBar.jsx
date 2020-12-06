@@ -5,26 +5,27 @@ import Button from "@material-ui/core/Button";
 import {Logo} from 'loft-taxi-mui-theme';
 import './NavBar.css';
 import PropTypes from "prop-types";
-import {withAuth} from "../../util/AuthContext";
+import {logOut} from "../../actions/authActions";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 
 
 class NavBar extends React.Component {
     static propTypes = {
-        logOut: PropTypes.func.isRequired,
-        navigateTo: PropTypes.func.isRequired
+        logOut: PropTypes.func.isRequired
     }
 
     logOut = () => {
-       this.props.logOut();
-       this.props.navigateTo("login");
+        this.props.logOut();
+        this.props.history.push("/login");
     }
 
     goToMap = () => {
-        this.props.navigateTo("map")
+        this.props.history.push("/map");
     }
 
     goToProfile = () => {
-        this.props.navigateTo("profile")
+        this.props.history.push("/profile");
     }
 
     render() {
@@ -43,4 +44,7 @@ class NavBar extends React.Component {
     }
 }
 
-export default withAuth(NavBar);
+export default connect(
+    null,
+    {logOut}
+)(withRouter(NavBar));

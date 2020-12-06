@@ -13,7 +13,7 @@ export default class Registration extends React.Component {
                     <Logo animated={true} white={true}/>
                 </Grid>
                 <Grid item xs={4}>
-                    <RegistrationForm navigateTo={this.props.navigateTo}/>
+                    <RegistrationForm/>
                 </Grid>
             </Grid>
         )

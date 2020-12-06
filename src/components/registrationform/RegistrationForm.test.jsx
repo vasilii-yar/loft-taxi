@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from "@testing-library/react";
 import RegistrationForm from "./RegistrationForm";
-import {AuthProvider} from "../../util/AuthContext";
 import '@testing-library/jest-dom';
 import renderer from "react-test-renderer";
 
@@ -13,9 +12,7 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 describe("Profile", () => {
     it("renders correctly", () => {
         const {container, getByLabelText, getByText, getAllByText} = render(
-            <AuthProvider>
-                <RegistrationForm navigateTo={mockNavigateTo}/>
-            </AuthProvider>
+            <RegistrationForm navigateTo={mockNavigateTo}/>
         );
         expect(container.innerHTML).toMatch("Регистрация");
         expect(getByText("Адрес электронной почты")).toBeInTheDocument();
@@ -27,9 +24,7 @@ describe("Profile", () => {
 
     it("renders correctly check by snapshot", () => {
         const tree = renderer.create(
-            <AuthProvider>
-                <RegistrationForm navigateTo={mockNavigateTo}/>
-            </AuthProvider>
+            <RegistrationForm navigateTo={mockNavigateTo}/>
         ).toJSON();
         expect(tree).toMatchSnapshot();
     })

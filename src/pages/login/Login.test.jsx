@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from "@testing-library/react";
 import Login from "./Login";
-import {AuthProvider} from "../../util/AuthContext";
 import renderer from "react-test-renderer";
 
 const mockNavigateTo = jest.fn();
@@ -17,9 +16,7 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 describe("Login", () => {
     it("renders correctly", () => {
         const {container} = render(
-            <AuthProvider>
-                <Login/>
-            </AuthProvider>
+            <Login/>
         );
 
         expect(container.innerHTML).toMatch("Форма входа");
@@ -27,9 +24,7 @@ describe("Login", () => {
 
     it("renders correctly check by snapshot", () => {
         const tree = renderer.create(
-            <AuthProvider>
-                <Login/>
-            </AuthProvider>
+            <Login/>
         ).toJSON();
         expect(tree).toMatchSnapshot();
     })

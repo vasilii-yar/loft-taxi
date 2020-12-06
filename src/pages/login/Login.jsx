@@ -13,7 +13,7 @@ export default class Login extends React.Component {
                     <Logo animated={true} white={true}/>
                 </Grid>
                 <Grid item xs={4}>
-                    <LoginForm navigateTo={this.props.navigateTo}/>
+                    <LoginForm/>
                 </Grid>
             </Grid>
         );

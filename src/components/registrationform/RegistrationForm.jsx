@@ -2,7 +2,6 @@ import React from 'react';
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -10,12 +9,13 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import "./RegistrationForm.css";
 import PropTypes from "prop-types";
-import {withAuth} from "../../util/AuthContext";
+import {connect} from "react-redux";
+import {tryRegistering} from "../../actions/authActions";
+import {Link, withRouter} from "react-router-dom";
 
 class RegistrationForm extends React.Component {
     static propTypes = {
-        logIn: PropTypes.func.isRequired,
-        navigateTo: PropTypes.func.isRequired
+        logIn: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -28,16 +28,13 @@ class RegistrationForm extends React.Component {
         }
     }
 
-    handleSubmit = () => {
-        this.props.logIn(this.state.email, this.state.password);
-    }
-
-    goToLogin = () => {
-        this.props.navigateTo("login");
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.tryRegistering(this.state.email, this.state.password, this.state.name, this.state.surname);
     }
 
     goToMap = () => {
-        this.props.navigateTo("map")
+        this.props.history.push("/map");
     }
 
     handleChange = (event) => {
@@ -69,8 +66,7 @@ class RegistrationForm extends React.Component {
                                 <Grid container direction={"column"} spacing={2}>
                                     <Grid item xs={12}>
                                         <Typography>
-                                            Уже зарегистрированы? <Link href="#"
-                                                                        onClick={this.goToLogin}>Войти</Link>
+                                            Уже зарегистрированы? <Link to="/login">Войти</Link>
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -117,6 +113,7 @@ class RegistrationForm extends React.Component {
                                             <InputLabel htmlFor="password">Пароль</InputLabel>
                                             <Input
                                                 id="password"
+                                                name="password"
                                                 type="password"
                                                 onChange={this.handleChange}
                                                 fullWidth
@@ -139,4 +136,7 @@ class RegistrationForm extends React.Component {
     }
 }
 
-export default withAuth(RegistrationForm);
+export default connect(
+    (state) => ({isLoggedIn: state.auth.isLoggedIn}),
+    {tryRegistering}
+)(withRouter(RegistrationForm));

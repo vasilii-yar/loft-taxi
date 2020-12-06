@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from "@testing-library/react";
 import Map from "./Map";
-import {AuthProvider} from "../../util/AuthContext";
 import renderer from "react-test-renderer";
 
 const mockNavigateTo = jest.fn();
@@ -24,18 +23,14 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 describe("Map", () => {
     it("renders correctly", () => {
         const {container} = render(
-            <AuthProvider>
-                <Map navigateTo={mockNavigateTo}/>
-            </AuthProvider>
+            <Map navigateTo={mockNavigateTo}/>
         );
         expect(container.innerHTML).toMatch("Карта");
     })
 
     it("renders correctly check by snapshot", () => {
         const tree = renderer.create(
-            <AuthProvider>
-                <Map navigateTo={mockNavigateTo}/>
-            </AuthProvider>
+            <Map navigateTo={mockNavigateTo}/>
         ).toJSON();
         expect(tree).toMatchSnapshot();
     })

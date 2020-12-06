@@ -7,7 +7,7 @@ export default class Map extends React.Component {
         return (
             <>
                 <header>
-                    <NavBar navigateTo={this.props.navigateTo}/>
+                    <NavBar/>
                 </header>
                 <main>
                     <section>
