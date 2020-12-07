@@ -40,7 +40,7 @@ class CreditCard extends React.Component {
             cvc: this.state.cvc,
             token: ""
         }
-        saveProfileData(cardData);
+        this.props.saveProfileData(cardData);
     }
 
     componentDidMount() {
@@ -72,6 +72,7 @@ class CreditCard extends React.Component {
                                         id="number"
                                         name="number"
                                         type="number"
+                                        value={this.state.number}
                                         onChange={this.handleInputChange}
                                         fullWidth
                                     />
@@ -84,6 +85,7 @@ class CreditCard extends React.Component {
                                         id="name"
                                         name="name"
                                         type="text"
+                                        value={this.state.name}
                                         onChange={this.handleInputChange}
                                         fullWidth
                                     />
@@ -98,6 +100,7 @@ class CreditCard extends React.Component {
                                                 id="expiry"
                                                 name="expiry"
                                                 type="string"
+                                                value={this.state.expiry}
                                                 onChange={this.handleInputChange}
                                             />
                                         </FormControl>
@@ -110,6 +113,7 @@ class CreditCard extends React.Component {
                                                 id="cvc"
                                                 name="cvc"
                                                 type="number"
+                                                value={this.state.cvc}
                                                 onChange={this.handleInputChange}
                                             />
                                         </FormControl>

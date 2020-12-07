@@ -79,6 +79,7 @@ class LoginForm extends React.Component {
                                                 id="login"
                                                 name="login"
                                                 type="email"
+                                                value={this.state.login}
                                                 onChange={this.handleChange}
                                                 fullWidth
                                             />
@@ -91,6 +92,7 @@ class LoginForm extends React.Component {
                                                 id="password"
                                                 name="password"
                                                 type="password"
+                                                value={this.state.password}
                                                 onChange={this.handleChange}
                                                 fullWidth
                                             />

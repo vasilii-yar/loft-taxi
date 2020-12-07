@@ -76,6 +76,7 @@ class RegistrationForm extends React.Component {
                                                 id="email"
                                                 name="email"
                                                 type="email"
+                                                value={this.state.email}
                                                 onChange={this.handleChange}
                                                 fullWidth
                                             />
@@ -90,6 +91,7 @@ class RegistrationForm extends React.Component {
                                                         id="name"
                                                         name="name"
                                                         type="text"
+                                                        value={this.state.name}
                                                         onChange={this.handleChange}
                                                     />
                                                 </FormControl>
@@ -102,6 +104,7 @@ class RegistrationForm extends React.Component {
                                                         id="surname"
                                                         name="surname"
                                                         type="text"
+                                                        value={this.state.surname}
                                                         onChange={this.handleChange}
                                                     />
                                                 </FormControl>
@@ -115,6 +118,7 @@ class RegistrationForm extends React.Component {
                                                 id="password"
                                                 name="password"
                                                 type="password"
+                                                value={this.state.password}
                                                 onChange={this.handleChange}
                                                 fullWidth
                                             />
