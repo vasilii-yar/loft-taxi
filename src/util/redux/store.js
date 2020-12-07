@@ -1,4 +1,3 @@
-import React from 'react';
 import {applyMiddleware, createStore} from "redux";
 import mainReducer from "../../reducers"
 import {authMiddleware} from "../../middleware/authMiddleware";

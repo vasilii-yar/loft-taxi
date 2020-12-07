@@ -1,5 +1,6 @@
 const AUTH_REQUEST_URL = "https://loft-taxi.glitch.me/auth";
 const REGISTER_REQUEST_URL = "https://loft-taxi.glitch.me/register";
+const SAVE_CARD_DATA_URL = "https://loft-taxi.glitch.me/card";
 
 export async function doGet(httpAddress = '') {
     return await fetch(httpAddress)
@@ -46,4 +47,11 @@ export async function doRegister(login, password, name, surname) {
     ).then((result) => {
         return result;
     })
+}
+
+export async function saveCardData({cardData}) {
+    return doPost(SAVE_CARD_DATA_URL, cardData)
+        .then((result) => {
+            return result;
+        })
 }

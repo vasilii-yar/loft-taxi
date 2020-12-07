@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from "../../components/navbar/NavBar";
-import {CardLayout} from "../../components/creditcard/CardLayout";
-import CardFrontContent from "../../components/creditcard/CardFrontContent";
+import CreditCard from "../../components/creditcard/CreditCard";
+import {Box} from "@material-ui/core";
 
 export default class Profile extends React.Component {
     render() {
@@ -12,9 +12,9 @@ export default class Profile extends React.Component {
                 </header>
                 <main>
                     <section>
-                        <CardLayout>
-                            <CardFrontContent/>
-                        </CardLayout>
+                        <Box>
+                            <CreditCard/>
+                        </Box>
                     </section>
                 </main>
             </>

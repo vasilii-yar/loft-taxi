@@ -1,16 +1,20 @@
-.card-layout {
+.credit-card-layout {
     width: 300px;
-    height: 189px;
+    height: 465px;
     position: relative;
     padding-top: 16px;
     padding-left: 32px;
     padding-right: 32px;
     padding-bottom: 16px;
+    margin-top: 5%;
+    margin-left: 40%;
 }
 
-.card-layout {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+.save-button {
+    padding-top: 40px;
 }
+
+.input-fields {
+    padding-top: 20px;
+}
+

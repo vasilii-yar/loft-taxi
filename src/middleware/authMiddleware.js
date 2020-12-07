@@ -10,14 +10,13 @@ export const authMiddleware = (store) => (next) => async (action) => {
         if (response.success) {
             store.dispatch(logIn());
         }
-    } else if (action.type == TRY_REGISTERING) {
+    } else if (action.type === TRY_REGISTERING) {
         const {email, password, name, surname} = action.payload;
         const response = await doRegister(email, password, name, surname);
 
         if (response.success) {
             store.dispatch(logIn());
         }
-    } else {
-        next(action);
     }
+    next(action);
 }
