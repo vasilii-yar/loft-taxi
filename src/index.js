@@ -8,7 +8,7 @@ import {MuiThemeProvider} from "@material-ui/core";
 import 'fontsource-roboto';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
-import {store} from "./util/redux/store";
+import {store} from "./redux/store";
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>

@@ -1,8 +1,8 @@
 import React from 'react';
-import Map from './pages/map/Map';
-import Profile from './pages/profile/Profile';
-import Login from './pages/login/Login';
-import Registration from './pages/registration/Registration';
+import Map from './components/map/Map';
+import Profile from './components/profile/Profile';
+import Login from './components/login/Login';
+import Registration from './components/registration/Registration';
 import './App.css';
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";

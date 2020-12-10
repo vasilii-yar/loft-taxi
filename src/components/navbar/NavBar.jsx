@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import {Logo} from 'loft-taxi-mui-theme';
 import './NavBar.css';
 import PropTypes from "prop-types";
-import {logOut} from "../../actions/authActions";
+import {logOut} from "../../redux/modules/auth/authActions";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 

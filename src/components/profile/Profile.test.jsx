@@ -1,36 +1,35 @@
 import React from 'react';
 import {render} from "@testing-library/react";
-import NavBar from "./NavBar";
+import Profile from "./Profile";
 import renderer from "react-test-renderer";
 import {Provider} from "react-redux";
 import {store} from "../../redux/store";
-import {BrowserRouter} from "react-router-dom";
 
+jest.mock("../navbar/NavBar", () => (
+    {
+        __esModule: true,
+        default: () => <div>Профиль</div>
+    }
+));
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
     Map: () => ({})
 }));
 
-describe("NavBar", () => {
+describe("Profile", () => {
     it("renders correctly", () => {
         const {container} = render(
-            <BrowserRouter>
-                <Provider store={store}>
-                    <NavBar/>
-                </Provider>
-            </BrowserRouter>
+            <Provider store={store}>
+                <Profile/>
+            </Provider>
         );
-        expect(container.innerHTML).toMatch("Карта");
         expect(container.innerHTML).toMatch("Профиль");
-        expect(container.innerHTML).toMatch("Выйти");
     })
 
     it("renders correctly check by snapshot", () => {
         const tree = renderer.create(
-            <BrowserRouter>
-                <Provider store={store}>
-                    <NavBar/>
-                </Provider>
-            </BrowserRouter>
+            <Provider store={store}>
+                <Profile/>
+            </Provider>
         ).toJSON();
         expect(tree).toMatchSnapshot();
     })

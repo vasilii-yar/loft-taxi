@@ -6,25 +6,25 @@ import {Provider} from "react-redux";
 import {createMemoryHistory} from "history";
 import {Router} from "react-router-dom";
 
-jest.mock("./pages/map/Map", () => (
+jest.mock("./components/map/Map", () => (
     {
         __esModule: true,
         default: () => <div>Карта</div>
     }
 ));
-jest.mock("./pages/profile/Profile", () => (
+jest.mock("./components/profile/Profile", () => (
     {
         __esModule: true,
         default: () => <div>Профиль</div>
     }
 ));
-jest.mock("./pages/login/Login", () => (
+jest.mock("./components/login/Login", () => (
     {
         __esModule: true,
         default: () => <div>Логин</div>
     }
 ));
-jest.mock("./pages/registration/Registration", () => (
+jest.mock("./components/registration/Registration", () => (
     {
         __esModule: true,
         default: () => <div>Регистрация</div>
