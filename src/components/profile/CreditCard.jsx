@@ -10,7 +10,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import {connect} from "react-redux";
-import {fetchProfileData, saveProfileData} from "../../redux/modules/profile/profileActions";
+import {fetchProfileData, uploadProfileData} from "../../redux/modules/profile/profileActions";
 
 class CreditCard extends React.Component {
     state = {
@@ -40,17 +40,19 @@ class CreditCard extends React.Component {
             cvc: this.state.cvc,
             token: ""
         }
-        this.props.saveProfileData(cardData);
+        this.props.uploadProfileData(cardData);
     }
 
     componentDidMount() {
-        this.props.fetchProfileData();
-        this.setState({
-            cvc: this.props.cvc,
-            expiry: this.props.expiryDate,
-            name: this.props.cardName,
-            number: this.props.cardNumber
-        })
+        this.props.fetchProfileData()
+            .then(
+                this.setState({
+                    cvc: this.props.cvc,
+                    expiry: this.props.expiryDate,
+                    name: this.props.cardName,
+                    number: this.props.cardNumber
+                })
+            );
     }
 
     render() {
@@ -72,7 +74,7 @@ class CreditCard extends React.Component {
                                     <Input
                                         id="number"
                                         name="number"
-                                        type="number"
+                                        type="text"
                                         value={this.state.number}
                                         onChange={this.handleInputChange}
                                         fullWidth
@@ -143,5 +145,5 @@ export default connect(
         cardName: state.profile.cardName,
         cvc: state.profile.cvc
     }),
-    {saveProfileData, fetchProfileData}
+    {uploadProfileData, fetchProfileData}
 )(CreditCard);
