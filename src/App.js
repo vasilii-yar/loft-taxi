@@ -38,7 +38,9 @@ class App extends React.Component {
     }
 }
 
-//TODO Вынести селектор в отдельный файл
-export default connect(
-    (state) => ({isLoggedIn: state.auth.isLoggedIn})
-)(App);
+const mapStateToProps = (state) => {
+    return(
+        {isLoggedIn: state.auth.isLoggedIn}
+    )
+}
+export default connect(mapStateToProps)(App);

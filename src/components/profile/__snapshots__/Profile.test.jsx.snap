@@ -125,7 +125,7 @@ Array [
                         onChange={[Function]}
                         onFocus={[Function]}
                         required={false}
-                        type="number"
+                        type="text"
                         value=""
                       />
                     </div>

@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
     }
 }
 
-export const getAuthToken = (state) => state.token;
+export const getAuthToken = (state) => state.auth.token;
 
 function saveState(state) {
     saveDataToStorage(state, PERSISTENT_KEY);

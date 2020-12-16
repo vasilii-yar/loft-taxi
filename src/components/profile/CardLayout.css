@@ -1,6 +1,6 @@
 .credit-card-layout {
     width: 300px;
-    height: 465px;
+    height: 550px;
     position: relative;
     padding-top: 16px;
     padding-left: 32px;
@@ -16,5 +16,9 @@
 
 .input-fields {
     padding-top: 20px;
+}
+
+.credit-card-header {
+    padding-bottom: 20px;
 }
 
