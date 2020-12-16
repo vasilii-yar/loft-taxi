@@ -1,17 +1,12 @@
 import React from 'react';
-import Map from './pages/map/Map';
-import Profile from './pages/profile/Profile';
-import Login from './pages/login/Login';
-import Registration from './pages/registration/Registration';
-import {withAuth} from './util/AuthContext';
+import Map from './components/map/Map';
+import Profile from './components/profile/Profile';
+import Login from './components/login/Login';
+import Registration from './components/registration/Registration';
 import './App.css';
-
-const PAGES = {
-    map: Map,
-    profile: Profile,
-    login: Login,
-    registration: Registration
-}
+import {connect} from "react-redux";
+import {Route, Switch} from "react-router-dom";
+import PrivateRoute from "./util/route/PrivateRoute";
 
 class App extends React.Component {
     state = {
@@ -27,15 +22,23 @@ class App extends React.Component {
             this.setState({currentPage: "login"})
         }
     };
-    
+
     render() {
-        const Page = PAGES[this.state.currentPage];
         return (
             <div className={"container"}>
-                <Page navigateTo={this.navigateTo}/>
+                <Switch>
+                    <Route exact path="/" component={Login}/>
+                    <PrivateRoute path="/map" component={Map}/>
+                    <PrivateRoute path="/profile" component={Profile}/>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/registration" component={Registration}/>
+                </Switch>
             </div>
         );
     }
 }
 
-export default withAuth(App);
+//TODO Вынести селектор в отдельный файл
+export default connect(
+    (state) => ({isLoggedIn: state.auth.isLoggedIn})
+)(App);
