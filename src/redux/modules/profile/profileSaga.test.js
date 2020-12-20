@@ -1,34 +1,54 @@
 import {recordSaga} from "../recordSaga";
 import {fetchProfileDataSaga, uploadProfileDataSaga} from "./profileSaga";
-import {fetchProfileData, UPDATE_PROFILE_DATA, uploadProfileData} from "./profileActions";
-import {LOG_IN} from "../auth/authActions";
+import {fetchProfileData, UPDATE_PROFILE_DATA, UPDATE_PROFILE_DATA_STATE, uploadProfileData} from "./profileActions";
 
 
-jest.mock("../../../util/server/serverConversation", () => ({saveCardData: jest.fn(() => ({success: true}))}));
-jest.mock("../../../util/server/serverConversation", () => ({getCardData: jest.fn(() => ({success: true}))}))
+jest.mock("../../../util/server/serverConversation", () => ({
+    saveCardData: () => Promise.resolve({success: true}),
+    getCardData: () => Promise.resolve({})
+}));
 
 describe("profileSaga", () => {
     it("save card data", async () => {
         const dispatched = await recordSaga(
             uploadProfileDataSaga,
-            uploadProfileData({test: "test"})
+            uploadProfileData({test: "test"}),
+            {auth: {token: "testToken"}}
         );
 
         expect(dispatched).toEqual(
             [
-                {type: UPDATE_PROFILE_DATA}
+                {
+                    type: UPDATE_PROFILE_DATA,
+                    payload: {
+                        test: "test",
+                        token: "testToken"
+                    }
+                },
+                {
+                    type: UPDATE_PROFILE_DATA_STATE,
+                    payload: true
+                }
             ]);
     });
 
     it("fetch card data", async () => {
         const dispatched = await recordSaga(
             fetchProfileDataSaga,
-            fetchProfileData()
+            fetchProfileData(),
+            {auth: {token: "testToken"}}
         );
 
         expect(dispatched).toEqual(
             [
-                {type: UPDATE_PROFILE_DATA}
+                {
+                    type: UPDATE_PROFILE_DATA,
+                    payload: {}
+                },
+                {
+                    type: UPDATE_PROFILE_DATA_STATE,
+                    payload: true
+                }
             ]);
     });
 })

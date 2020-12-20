@@ -2,7 +2,9 @@ import {recordSaga} from "../recordSaga";
 import {fetchCoordinatesSaga, routeSaga} from "./routeSaga";
 import {ROUTING_SUCCESS, tryRouting} from "./routeActions";
 
-jest.mock("../../../util/server/serverConversation", () => ({getCoordinates: jest.fn(() => [])}));
+jest.mock("../../../util/server/serverConversation", () => ({
+    getCoordinates: () => Promise.resolve([100])
+}));
 
 describe("routeSaga", () => {
     it("fetch coordinates", async () => {
@@ -13,7 +15,10 @@ describe("routeSaga", () => {
 
         expect(dispatched).toEqual(
             [
-                {type: ROUTING_SUCCESS}
+                {
+                    type: ROUTING_SUCCESS,
+                    payload: [100]
+                }
             ]);
     });
 })
