@@ -7,3 +7,13 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
+
+.login-form-layout {
+    width: 440px;
+    height: 360px;
+}
+
+.login-content-container {
+    padding-left: 40px;
+    padding-right: 40px;
+}
