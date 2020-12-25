@@ -4,7 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import {Logo} from 'loft-taxi-mui-theme';
 import './NavBar.css';
-import {logOut} from "../../redux/modules/auth/authActions";
+import {tryLogOut} from "../../redux/modules/auth/authActions";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {Box} from "@material-ui/core";
@@ -13,7 +13,7 @@ import {Box} from "@material-ui/core";
 const NavBar = (props) => {
 
     const logOut = () => {
-        props.logOut();
+        props.tryLogOut();
         props.history.push("/login");
     }
 
@@ -41,5 +41,5 @@ const NavBar = (props) => {
 
 export default connect(
     null,
-    {logOut}
+    {tryLogOut}
 )(withRouter(NavBar));

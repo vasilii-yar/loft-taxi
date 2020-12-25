@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import "./LoginForm.css"
 import {connect} from "react-redux";
 import {tryAuth} from "../../redux/modules/auth/authActions";
-import {Link, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {useForm} from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
@@ -18,19 +18,11 @@ const LoginForm = (props) => {
         login: "",
         password: ""
     })
-    const history = useHistory();
+
     const {register, handleSubmit, errors} = useForm();
 
     const onSubmit = (data) => {
         props.tryAuth(data.login, data.password);
-    }
-
-    const goToMap = () => {
-        history.push("/map");
-    }
-
-    const goToRegistration = () => {
-        history.push("/registration");
     }
 
     const handleChange = (event) => {
@@ -46,7 +38,7 @@ const LoginForm = (props) => {
         props.isLoggedIn ?
             (
                 <>
-                    {goToMap()}
+                    <Redirect to="/map" />
                 </>
             )
             :

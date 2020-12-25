@@ -1,148 +1,245 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import {Box} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import "./CardLayout.css"
 import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import {connect} from "react-redux";
 import {fetchProfileData, uploadProfileData} from "../../redux/modules/profile/profileActions";
 import Typography from "@material-ui/core/Typography";
+import {useForm} from "react-hook-form";
+import {useHistory} from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import {FieldsValidateErrorMessages} from "../fieldsvalidate/FieldsValidateErrorMessages";
+import InputMask from "react-input-mask";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
 
-class CreditCard extends React.Component {
-    state = {
+const CreditCard = (props) => {
+    const [state, setState] = useState({
         cvc: "",
         expiry: "",
-        focus: "",
         name: "",
-        number: ""
-    };
+        number: "",
+        focus: ""
+    })
 
-    handleInputFocus = (e) => {
-        this.setState({focus: e.target.name});
-    }
+    const {register, handleSubmit, errors} = useForm();
 
-    handleInputChange = (e) => {
+    const history = useHistory();
+
+    const expiryMask = [/[0-1]/, /[0-9]/, "/", /[0-9]/, /[0-9]/];
+
+    const handleInputChange = (e) => {
         const {name, value} = e.target;
-        this.setState({[name]: value});
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const cardData = {
-            cardNumber: this.state.number,
-            expiryDate: this.state.expiry,
-            cardName: this.state.name,
-            cvc: this.state.cvc,
-            token: ""
-        }
-        this.props.uploadProfileData(cardData);
-    }
-
-    componentDidMount() {
-        this.props.fetchProfileData();
-
-        this.setState({
-            cvc: this.props.cvc,
-            expiry: this.props.expiryDate,
-            name: this.props.cardName,
-            number: this.props.cardNumber
+        setState({
+            ...state,
+            [name]: value
         });
     }
 
-    render() {
-        return (
-            <Paper className="credit-card-layout">
-                <Box className="credit-card-header">
-                    <Typography variant="h4" align="center">
-                        Профиль
-                    </Typography>
-                    <Typography align="center">
-                        Способ оплаты
-                    </Typography>
-                </Box>
-                <Box id="PaymentForm">
-                    <Cards
-                        cvc={this.state.cvc}
-                        expiry={this.state.expiry}
-                        focused={this.state.focus}
-                        name={this.state.name}
-                        number={this.state.number}
-                    />
-                    <form onSubmit={this.handleSubmit} className="input-fields">
-                        <Grid container direction="column" spacing={2}>
-                            <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel htmlFor="number">Номер карты</InputLabel>
-                                    <Input
-                                        id="number"
-                                        name="number"
-                                        type="text"
-                                        value={this.state.number}
-                                        onChange={this.handleInputChange}
+    const handleExpireInput = (e) => {
+        let {name, value} = e.target;
+        let month = value.substring(0, 2);
+
+        if (!isNaN(month)) {
+            month = parseInt(month);
+            if (month > 12) {
+                value = 12 + value.substring(2, 5);
+            }
+        }
+
+        setState({
+            ...state,
+            [name]: value
+        });
+    }
+
+    const handleCvcInput = (e) => {
+        const {name, value} = e.target;
+
+        if (value.length > 3) {
+            return;
+        }
+        setState({
+            ...state,
+            [name]: value
+        });
+    }
+
+    const expireValidate = (value) => {
+        const [month, year] = value.split("/");
+
+        if (isNaN(month) || isNaN(year)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const creditCardValidate = (value) => {
+        if (value.replaceAll(" ", "").length < 16) {
+            return false;
+        }
+        return true;
+    }
+
+    const createExpireFromString = (value) => {
+        if (value === "") {
+            return value;
+        }
+
+        const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+
+        const isString = typeof value === "string";
+        const isDate = dateFormat.test(value);
+
+        if (isString && isDate) {
+            const dateValue = new Date(value);
+            const year = dateValue.getFullYear().toString();
+            const month = dateValue.getMonth() + 1;
+            const monthStr = (month < 10) ? "0" + month : month.toString();
+
+            return monthStr + "/" + year.substring(2, 4);
+        } else {
+            return "01/01";
+        }
+    }
+
+    const onSubmit = (data) => {
+        const cardNum = state.number.replaceAll(" ", "");
+        const monthStr = state.expiry.substring(0, 2);
+        const month = parseInt(monthStr) - 1;
+        const yearStr = state.expiry.substring(3, 5);
+        const year = parseInt(yearStr) + 2000;
+        const expireDate = new Date(year, month, 1, 0, 0, 0, 0);
+
+        const cardData = {
+            cardNumber: cardNum,
+            expiryDate: expireDate,
+            cardName: state.name,
+            cvc: state.cvc,
+            token: ""
+        }
+        props.uploadProfileData(cardData);
+        history.push("/map");
+    }
+
+    useEffect(() => {
+        props.fetchProfileData();
+        const expire = createExpireFromString(props.expiryDate);
+
+        setState({
+            ...state,
+            cvc: props.cvc,
+            expiry: expire,
+            name: props.cardName,
+            number: props.cardNumber
+        });
+    }, [])
+
+    return (
+        <Paper className="credit-card-layout">
+            <Box className="credit-card-header">
+                <Typography variant="h4" align="center">
+                    Профиль
+                </Typography>
+                <Typography align="center">
+                    Способ оплаты
+                </Typography>
+            </Box>
+            <Box id="PaymentForm">
+                <Cards
+                    cvc={state.cvc}
+                    expiry={state.expiry}
+                    focused={state.focus}
+                    name={state.name}
+                    number={state.number}
+                />
+                <form onSubmit={handleSubmit(onSubmit)} className="input-fields">
+                    <Grid container direction="column" spacing={2}>
+                        <Grid item xs={12}>
+                            <InputMask mask="9999 9999 9999 9999" maskPlaceholder=" " value={state.number} onChange={handleInputChange}>
+                                <TextField
+                                    inputRef={register({
+                                        required: true,
+                                        validate: creditCardValidate
+                                    })}
+                                    name="number"
+                                    type="text"
+                                    fullWidth
+                                    error={errors.number}
+                                    label="Номер карты"
+                                />
+                            </InputMask>
+                            <FieldsValidateErrorMessages error={errors.number}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                inputRef={register({required: true})}
+                                name="name"
+                                type="text"
+                                value={state.name}
+                                onChange={handleInputChange}
+                                fullWidth
+                                error={errors.name}
+                                label="Имя владельца"
+                            />
+                            <FieldsValidateErrorMessages error={errors.name}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid container direction="row">
+                                <Grid item xs={5}>
+                                    <InputMask mask={expiryMask} maskPlaceholder="mm/yy" value={state.expiry}
+                                               onChange={handleExpireInput}>
+                                        <TextField
+                                            inputRef={register({
+                                                required: true,
+                                                validate: expireValidate
+                                            })}
+                                            name="expiry"
+                                            type="text"
+                                            fullWidth
+                                            error={errors.expiry}
+                                            label="Срок действия"
+                                        />
+                                    </InputMask>
+                                    <FieldsValidateErrorMessages error={errors.expiry}/>
+                                </Grid>
+                                <Grid item xs={2}></Grid>
+                                <Grid item xs={5}>
+                                    <TextField
+                                        inputRef={register({
+                                            required: true,
+                                            minLength: 3
+                                        })}
+                                        name="cvc"
+                                        type="number"
+                                        value={state.cvc}
+                                        onChange={handleCvcInput}
                                         fullWidth
+                                        error={errors.cvc}
+                                        label="CVC"
                                     />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControl fullWidth>
-                                    <InputLabel htmlFor="name">Имя владельца</InputLabel>
-                                    <Input
-                                        id="name"
-                                        name="name"
-                                        type="text"
-                                        value={this.state.name}
-                                        onChange={this.handleInputChange}
-                                        fullWidth
-                                    />
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Grid container direction="row">
-                                    <Grid item xs={5}>
-                                        <FormControl fullWidth>
-                                            <InputLabel htmlFor="expiry">Срок действия</InputLabel>
-                                            <Input
-                                                id="expiry"
-                                                name="expiry"
-                                                type="string"
-                                                value={this.state.expiry}
-                                                onChange={this.handleInputChange}
-                                            />
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item xs={2}></Grid>
-                                    <Grid item xs={5}>
-                                        <FormControl fullWidth>
-                                            <InputLabel htmlFor="cvc">CVC</InputLabel>
-                                            <Input
-                                                id="cvc"
-                                                name="cvc"
-                                                type="number"
-                                                value={this.state.cvc}
-                                                onChange={this.handleInputChange}
-                                            />
-                                        </FormControl>
-                                    </Grid>
+                                    <FieldsValidateErrorMessages error={errors.cvc}/>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <div className="save-button">
-                                    <Button variant="contained" color="primary" type="submit">
-                                        Сохранить
-                                    </Button>
-                                </div>
-                            </Grid>
                         </Grid>
-                    </form>
-                </Box>
-            </Paper>
-        );
-    }
+                        <Grid item xs={12}>
+                            <div className="save-button">
+                                <Button variant="contained" color="primary" type="submit">
+                                    Сохранить
+                                </Button>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Box>
+        </Paper>
+    );
 }
 
 const mapStateToProps = (state) => {

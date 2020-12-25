@@ -50,6 +50,8 @@ const MapBox = (props) => {
 
 export const drawRoute = (map, coordinates) => {
     if (coordinates.length === 0) {
+        map.removeLayer("route");
+        map.removeSource("route");
         return;
     }
 

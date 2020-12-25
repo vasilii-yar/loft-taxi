@@ -8,13 +8,13 @@ export const FieldsValidateErrorMessages = ({error}) => {
             case "required":
                 return <Typography className="validate-error-message">Необходимо заполнить!</Typography>;
             case "minLength":
-                return <Typography className="validate-error-message">Your last name need minmium 2 charcaters</Typography>;
+                return <Typography className="validate-error-message">Слишком маленькая длинна!</Typography>;
             case "pattern":
-                return <Typography className="validate-error-message">Enter a valid email address</Typography>;
+                return <Typography className="validate-error-message">Значение не соответствует шаблону!</Typography>;
             case "min":
-                return <Typography className="validate-error-message">Minmium age is 18</Typography>;
+                return <Typography className="validate-error-message">Указанное значение меньше минимального!</Typography>;
             case "validate":
-                return <Typography className="validate-error-message">Username is already used</Typography>;
+                return <Typography className="validate-error-message">Значение заполнено неверно!</Typography>;
             default:
                 return null;
         }

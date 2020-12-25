@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Paper from "@material-ui/core/Paper";
 import {Box} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -8,121 +8,121 @@ import TextField from "@material-ui/core/TextField";
 import "./RouteForm.css";
 import {connect} from "react-redux";
 import {tryFetchAddress} from "../../redux/modules/address/addressActions";
-import {tryRouting} from "../../redux/modules/route/routeActions";
+import {clearRoute, tryRouting} from "../../redux/modules/route/routeActions";
+import {useForm} from "react-hook-form";
+import {FieldsValidateErrorMessages} from "../fieldsvalidate/FieldsValidateErrorMessages";
 
-class RouteForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            fromValue: "",
-            toValue: "",
-            inputValid: true,
-            errorText: "",
-            isRoutePrinted: false
-        }
-    }
+const RouteForm = (props) => {
+    const [state, setState] = useState({
+        fromValue: "",
+        toValue: ""
+    })
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        if (this.state.isRoutePrinted) {
-            this.setState({
+    const [errorText, setErrorText] = useState("");
+
+    const [isInputValid, setIsInputValid] = useState(true);
+
+    const [isRoutePrinted, setIsRoutePrinted] = useState(false);
+
+    const {register, handleSubmit, errors} = useForm();
+
+    const onSubmit = (data) => {
+        if (isRoutePrinted) {
+            setState({
+                ...state,
                 fromValue: "",
-                toValue: "",
-                isRoutePrinted: false
+                toValue: ""
             })
-        } else if (this.validate()) {
-            this.props.tryRouting(this.state.fromValue, this.state.toValue);
-            this.setState({
-                isRoutePrinted: true
-            });
+            props.clearRoute();
+            setIsRoutePrinted(false);
+        } else {
+            setIsRoutePrinted(true);
+            props.tryRouting(data.fromValue, data.toValue);
         }
     }
 
-    handleChange = (event, newValue) => {
-        const {id} = event.target;
-        const name = (id.indexOf("from-combo") === -1) ? "toValue" : "fromValue";
-        this.setState({[name]: newValue});
+    const onFromChange = (event, newValue) => {
+        setState({...state, fromValue: newValue});
+        errors.fromValue = false;
     }
 
-    validate = () => {
-        const from = this.state.fromValue;
-        const  to = this.state.toValue;
+    const onToChange = (event, newValue) => {
+        setState({...state, toValue: newValue});
+        errors.toValue = false;
+    }
 
-        if (from === "" || to === "") {
-            this.setState({
-                inputValid: false,
-                errorText: "Ошибка! Заполните все поля!"
-            })
-            return false;
-        }
+    const validate = (value) => {
+        const from = state.fromValue;
+        const to = state.toValue;
 
         if (from === to) {
-            this.setState({
-                inputValid: false,
-                errorText: "Ошибка! Значения должны отличаться!"
-            })
             return false;
-        }
-
-        if (!this.state.inputValid) {
-            this.setState({
-                inputValid: true,
-                errorText: ""
-            })
         }
 
         return true;
     }
 
-    componentDidMount() {
-        this.props.tryFetchAddress();
-    }
+    useEffect(() => {
+        props.tryFetchAddress();
+    }, [])
 
-    render() {
-        return (
-            <Paper className="route-form-layout">
-                <Box>
-                    <form onSubmit={this.handleSubmit} className="route-form-content">
-                        <Grid container direction="column" spacing={4}>
-                            <Grid item xs={12}>
-                                <Autocomplete
-                                    id="from-combo"
-                                    options={this.props.addressList}
-                                    getOptionLabel={(option) => option}
-                                    value={this.state.fromValue}
-                                    onChange={this.handleChange}
-                                    renderInput={(params) => <TextField {...params} label="Откуда"
-                                                                        variant="standard"
-                                                                        error={!this.state.inputValid}
-                                                                        helperText={this.state.errorText}/>}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Autocomplete
-                                    id="to-combo"
-                                    options={this.props.addressList}
-                                    getOptionLabel={(option) => option}
-                                    value={this.state.toValue}
-                                    onChange={this.handleChange}
-                                    renderInput={(params) => <TextField {...params} label="Куда"
-                                                                        variant="standard"
-                                                                        error={!this.state.inputValid}
-                                                                        helperText={this.state.errorText}/>}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <div className="get-taxi-button">
-                                    <Button variant="contained" color="primary" type="submit" fullWidth>
-                                        {this.state.isRoutePrinted ? "Сбросить маршрут" : "Вызвать такси"}
-                                    </Button>
-                                </div>
-                            </Grid>
+    return (
+        <Paper className="route-form-layout">
+            <Box>
+                <form onSubmit={handleSubmit(onSubmit)} className="route-form-content">
+                    <Grid container direction="column" spacing={4}>
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                id="from-combo"
+                                options={props.addressList}
+                                getOptionLabel={(option) => option}
+                                value={state.fromValue}
+                                onInputChange={onFromChange}
+                                renderInput={(params) => <TextField {...params}
+                                                                    inputRef={register({
+                                                                        required: true,
+                                                                        validate: validate
+                                                                    })}
+                                                                    name="fromValue"
+                                                                    label="Откуда"
+                                                                    variant="standard"
+                                                                    error={errors.fromValue}
+                                />}
+                            />
+                            <FieldsValidateErrorMessages error={errors.fromValue}/>
                         </Grid>
-                    </form>
-                </Box>
-            </Paper>
-        );
-    }
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                id="to-combo"
+                                options={props.addressList}
+                                getOptionLabel={(option) => option}
+                                value={state.toValue}
+                                onChange={onToChange}
+                                renderInput={(params) => <TextField {...params}
+                                                                    inputRef={register({
+                                                                        required: true,
+                                                                        validate: validate
+                                                                    })}
+                                                                    name="toValue"
+                                                                    label="Куда"
+                                                                    variant="standard"
+                                                                    error={errors.toValue}
+                                />}
+                            />
+                            <FieldsValidateErrorMessages error={errors.toValue}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div className="get-taxi-button">
+                                <Button variant="contained" color="primary" type="submit" fullWidth>
+                                    {isRoutePrinted ? "Сбросить маршрут" : "Вызвать такси"}
+                                </Button>
+                            </div>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Box>
+        </Paper>
+    );
 }
 
 const mapStateToProps = (state) => {
@@ -133,5 +133,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps,
-    {tryFetchAddress, tryRouting}
+    {tryFetchAddress, tryRouting, clearRoute}
 )(RouteForm);

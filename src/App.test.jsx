@@ -1,7 +1,6 @@
 import React from 'react';
 import App from "./App";
 import {render} from "@testing-library/react";
-import {AuthProvider} from "./util/AuthContext";
 import {Provider} from "react-redux";
 import {createMemoryHistory} from "history";
 import {Router} from "react-router-dom";

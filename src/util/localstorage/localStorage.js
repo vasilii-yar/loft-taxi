@@ -1,3 +1,4 @@
+export const AUTH_PERSISTENT_KEY = "authState";
 
 export function saveDataToStorage(data, key) {
     try {

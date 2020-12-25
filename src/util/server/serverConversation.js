@@ -52,7 +52,7 @@ export async function doRegister(login, password, name, surname) {
     })
 }
 
-export async function saveCardData({cardData}) {
+export async function saveCardData(cardData) {
     return doPost(SAVE_CARD_DATA_URL, cardData)
         .then((result) => {
             return result;

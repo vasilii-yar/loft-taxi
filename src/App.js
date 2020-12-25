@@ -7,6 +7,7 @@ import './App.css';
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import PrivateRoute from "./util/route/PrivateRoute";
+import ErrorMessageSnackbar from "./components/errormessage/ErrorMessageSnackbar";
 
 class App extends React.Component {
     state = {
@@ -33,6 +34,7 @@ class App extends React.Component {
                     <Route path="/login" component={Login}/>
                     <Route path="/registration" component={Registration}/>
                 </Switch>
+                <ErrorMessageSnackbar/>
             </div>
         );
     }
