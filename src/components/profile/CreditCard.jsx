@@ -11,6 +11,7 @@ import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import {connect} from "react-redux";
 import {fetchProfileData, uploadProfileData} from "../../redux/modules/profile/profileActions";
+import Typography from "@material-ui/core/Typography";
 
 class CreditCard extends React.Component {
     state = {
@@ -27,7 +28,6 @@ class CreditCard extends React.Component {
 
     handleInputChange = (e) => {
         const {name, value} = e.target;
-
         this.setState({[name]: value});
     }
 
@@ -44,20 +44,27 @@ class CreditCard extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchProfileData()
-            .then(
-                this.setState({
-                    cvc: this.props.cvc,
-                    expiry: this.props.expiryDate,
-                    name: this.props.cardName,
-                    number: this.props.cardNumber
-                })
-            );
+        this.props.fetchProfileData();
+
+        this.setState({
+            cvc: this.props.cvc,
+            expiry: this.props.expiryDate,
+            name: this.props.cardName,
+            number: this.props.cardNumber
+        });
     }
 
     render() {
         return (
             <Paper className="credit-card-layout">
+                <Box className="credit-card-header">
+                    <Typography variant="h4" align="center">
+                        Профиль
+                    </Typography>
+                    <Typography align="center">
+                        Способ оплаты
+                    </Typography>
+                </Box>
                 <Box id="PaymentForm">
                     <Cards
                         cvc={this.state.cvc}
@@ -138,12 +145,18 @@ class CreditCard extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return (
+        {
+            cardNumber: state.profile.cardNumber,
+            expiryDate: state.profile.expiryDate,
+            cardName: state.profile.cardName,
+            cvc: state.profile.cvc
+        }
+    )
+}
+
 export default connect(
-    (state) => ({
-        cardNumber: state.profile.cardNumber,
-        expiryDate: state.profile.expiryDate,
-        cardName: state.profile.cardName,
-        cvc: state.profile.cvc
-    }),
+    mapStateToProps,
     {uploadProfileData, fetchProfileData}
 )(CreditCard);

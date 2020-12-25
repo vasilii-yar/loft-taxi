@@ -4,44 +4,39 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import {Logo} from 'loft-taxi-mui-theme';
 import './NavBar.css';
-import PropTypes from "prop-types";
 import {logOut} from "../../redux/modules/auth/authActions";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
+import {Box} from "@material-ui/core";
 
 
-class NavBar extends React.Component {
-    static propTypes = {
-        logOut: PropTypes.func.isRequired
+const NavBar = (props) => {
+
+    const logOut = () => {
+        props.logOut();
+        props.history.push("/login");
     }
 
-    logOut = () => {
-        this.props.logOut();
-        this.props.history.push("/login");
+    const goToMap = () => {
+        props.history.push("/map");
     }
 
-    goToMap = () => {
-        this.props.history.push("/map");
+    const goToProfile = () => {
+        props.history.push("/profile");
     }
 
-    goToProfile = () => {
-        this.props.history.push("/profile");
-    }
-
-    render() {
-        return (
-            <AppBar color="inherit" position={"static"}>
-                <Toolbar>
-                    <Logo/>
-                    <div className="nav-buttons">
-                        <Button color="inherit" onClick={this.goToMap}>Карта</Button>
-                        <Button color="inherit" onClick={this.goToProfile}>Профиль</Button>
-                        <Button color="inherit" onClick={this.logOut}>Выйти</Button>
-                    </div>
-                </Toolbar>
-            </AppBar>
-        );
-    }
+    return (
+        <AppBar color="inherit" position={"static"}>
+            <Toolbar className="nav-toolbar">
+                <Logo/>
+                <Box>
+                    <Button color="inherit" onClick={goToMap}>Карта</Button>
+                    <Button color="inherit" onClick={goToProfile}>Профиль</Button>
+                    <Button color="inherit" onClick={logOut}>Выйти</Button>
+                </Box>
+            </Toolbar>
+        </AppBar>
+    );
 }
 
 export default connect(

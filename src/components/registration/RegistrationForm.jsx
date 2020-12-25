@@ -140,7 +140,13 @@ class RegistrationForm extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return(
+        {isLoggedIn: state.auth.isLoggedIn}
+    )
+}
+
 export default connect(
-    (state) => ({isLoggedIn: state.auth.isLoggedIn}),
+    mapStateToProps,
     {tryRegistering}
 )(withRouter(RegistrationForm));
