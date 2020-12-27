@@ -18,6 +18,10 @@ describe("routeSaga", () => {
                 {
                     type: ROUTING_SUCCESS,
                     payload: [100]
+                },
+                {
+                    payload: true,
+                    type: "loft-taxi/route/MAKE_ORDER_SUCCESS",
                 }
             ]);
     });

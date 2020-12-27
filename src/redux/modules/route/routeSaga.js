@@ -1,5 +1,5 @@
 import {takeEvery, call, put} from "@redux-saga/core/effects";
-import {CLEAR_ROUTE, routingSuccess, TRY_ROUTING, tryRouting} from "./routeActions";
+import {CLEAR_ROUTE, makeOrderSuccess, routingSuccess, TRY_ROUTING, tryRouting} from "./routeActions";
 import {getCoordinates} from "../../../util/server/serverConversation";
 import {showError} from "../error/errorActions";
 
@@ -11,6 +11,7 @@ export function* fetchCoordinatesSaga(action) {
 
         if(response) {
             yield put(routingSuccess(response));
+            yield put(makeOrderSuccess(true));
         } else {
             throw new Error("Не удалось загрузить координаты!");
         }

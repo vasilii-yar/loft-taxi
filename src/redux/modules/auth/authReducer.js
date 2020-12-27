@@ -1,5 +1,6 @@
 import {LOG_IN, LOG_OUT} from "./authActions";
-import {AUTH_PERSISTENT_KEY, getDataFromLocalStorage, saveDataToStorage} from "../../../util/localstorage/localStorage";
+import {AUTH_PERSISTENT_KEY, getDataFromLocalStorage} from "../../../util/localstorage/localStorage";
+import {createSelector} from "reselect";
 
 const persistentState = getDataFromLocalStorage(AUTH_PERSISTENT_KEY)
 const initialState = persistentState ? persistentState : {isLoggedIn: false, token: ""}
@@ -15,5 +16,6 @@ export default function (state = initialState, action) {
     }
 }
 
-export const getAuthToken = (state) => state.auth.token;
-
+export const getAuthToken = createSelector(
+    state => state.auth.token, token => token
+);

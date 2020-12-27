@@ -1,4 +1,5 @@
 import {UPDATE_PROFILE_DATA, UPDATE_PROFILE_DATA_STATE} from "./profileActions";
+import {createSelector} from "reselect";
 
 const initialState = {
     cardNumber: "",
@@ -23,4 +24,6 @@ export default function (state = initialState, action) {
     }
 }
 
-export const getCardDataState = (state) => state.isCardDataFilled;
+export const getCardDataState = createSelector(
+    state => state.profile.isCardDataFilled, isCardDataFilled => isCardDataFilled
+);

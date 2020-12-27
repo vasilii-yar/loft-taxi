@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import "./RouteForm.css";
 import {connect} from "react-redux";
 import {tryFetchAddress} from "../../redux/modules/address/addressActions";
-import {clearRoute, tryRouting} from "../../redux/modules/route/routeActions";
+import {tryRouting} from "../../redux/modules/route/routeActions";
 import {useForm} from "react-hook-form";
 import {FieldsValidateErrorMessages} from "../fieldsvalidate/FieldsValidateErrorMessages";
 
@@ -22,12 +22,10 @@ const RouteForm = (props) => {
 
     const [isInputValid, setIsInputValid] = useState(true);
 
-    const [isRoutePrinted, setIsRoutePrinted] = useState(false);
-
     const {register, handleSubmit, errors} = useForm();
 
     const onSubmit = (data) => {
-        if (isRoutePrinted) {
+        /*if (isRoutePrinted) {
             setState({
                 ...state,
                 fromValue: "",
@@ -35,10 +33,9 @@ const RouteForm = (props) => {
             })
             props.clearRoute();
             setIsRoutePrinted(false);
-        } else {
-            setIsRoutePrinted(true);
-            props.tryRouting(data.fromValue, data.toValue);
-        }
+        } else {*/
+
+        props.tryRouting(data.fromValue, data.toValue);
     }
 
     const onFromChange = (event, newValue) => {
@@ -114,7 +111,7 @@ const RouteForm = (props) => {
                         <Grid item xs={12}>
                             <div className="get-taxi-button">
                                 <Button variant="contained" color="primary" type="submit" fullWidth>
-                                    {isRoutePrinted ? "Сбросить маршрут" : "Вызвать такси"}
+                                    Вызвать такси
                                 </Button>
                             </div>
                         </Grid>
@@ -133,5 +130,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps,
-    {tryFetchAddress, tryRouting, clearRoute}
+    {tryFetchAddress, tryRouting}
 )(RouteForm);
